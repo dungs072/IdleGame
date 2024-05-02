@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CustomerSpawner : MonoBehaviour
 {
-    [SerializeField] private AIController customerPrefab;
+    [SerializeField] private Customer customerPrefab;
     [SerializeField] private WaitingLineManager waitingLineManager;
     [SerializeField] private CustomerWaitingLineManager customerManager;
     [SerializeField] private float nextCustomerSpawnTime = 5f;
@@ -28,5 +28,6 @@ public class CustomerSpawner : MonoBehaviour
         var customerInstance = Instantiate(customerPrefab,transform.position,Quaternion.identity);
         customerInstance.SetDestination(desPosition);
         customerManager.AddCustomer(customerInstance);
+        
     }
 }

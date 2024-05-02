@@ -4,27 +4,28 @@ using UnityEngine;
 
 public class WaitingLineManager : MonoBehaviour
 {
+    [SerializeField] private CustomerWaitingLineManager customerManager;
     [SerializeField] private int maxCustomerCanLine = 10;
     [SerializeField] private float bottomDistance = 2f;
-    private int currentCustomerInLine = 0;
-    private Vector3 currentPosition;
-    private void Start()
-    {
-        currentPosition = transform.position;
-    }
     public Vector3 GetNextWaitingLinePosition()
     {
-        if (currentCustomerInLine == maxCustomerCanLine)
+        if (customerManager.GetCurrentCustomerWaitingInLine() == maxCustomerCanLine)
         {
             return default;
         }
-        currentPosition += transform.forward * -1 * bottomDistance;
-        currentCustomerInLine++;
+        if(!customerManager.HasCustomer())
+        {
+            return transform.position+ transform.forward * -1 * bottomDistance;
+        }
+        else
+        {
+            var customer = customerManager.GetTheLastCustomer();
+            return customer.GetDestination()+transform.forward*-1*bottomDistance;
+        }
 
-        return currentPosition;
     }
     public bool IsMaxCustomers()
     {
-        return currentCustomerInLine == maxCustomerCanLine;
+        return customerManager.GetCurrentCustomerWaitingInLine() == maxCustomerCanLine;
     }
 }

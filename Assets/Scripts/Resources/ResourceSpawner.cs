@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class ResourceSpawner : MonoBehaviour
 {
-    [SerializeField] private Transform spawnablePlace;
+
+    [SerializeField] private Holder holdingPlace;
     [SerializeField] private GameObject resourcePrefab;
     [SerializeField] private float resourcesSpawnTime = 2f;
-    [SerializeField] private float maxResourceSpawn = 10f;
-    [SerializeField] private float topDistance = 1f;
-    private List<GameObject> resources = new List<GameObject>();
+
+
+
     private float currentSpawnTime = 0f;
-    private int currentResourceAmount = 0;
+
     private void Update()
     {
-        if (IsMaxResourceHolder()) { return; }
+        if (holdingPlace.IsMaxSize()) { return; }
         if (currentSpawnTime >= resourcesSpawnTime)
         {
             currentSpawnTime = 0f;
@@ -27,23 +28,10 @@ public class ResourceSpawner : MonoBehaviour
     }
     private void SpawnResources()
     {
-        var resourceInstance = Instantiate(resourcePrefab, spawnablePlace.position, Quaternion.identity);
+        var resourceInstance = Instantiate(resourcePrefab, holdingPlace.transform.position, Quaternion.identity);
         
-        if (resources.Count > 0)
-        {
-            resourceInstance.transform.position = resources[resources.Count-1].transform.position+
-                                                                    spawnablePlace.up*topDistance;
-        }
-        else
-        {
-            resourceInstance.transform.position = spawnablePlace.position+
-                                                spawnablePlace.up*topDistance;
-        }
-        resourceInstance.transform.SetParent(spawnablePlace);
-        resources.Add(resourceInstance);
+        resourceInstance.transform.SetParent(holdingPlace.transform);
+        holdingPlace.AddItem(resourceInstance);
     }
-    public bool IsMaxResourceHolder()
-    {
-        return currentResourceAmount == maxResourceSpawn;
-    }
+
 }
