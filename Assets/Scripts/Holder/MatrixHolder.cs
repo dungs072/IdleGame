@@ -31,11 +31,13 @@ public class MatrixHolder : MonoBehaviour
                 currentTop++;
             }
         }
-
-
-
-
         holder.AddItemWithoutSort(item);
+    }
+    public void Reset()
+    {
+        currentRow = 0;
+        currentCol = 0;
+        currentTop = 0;
     }
 
     public void SpawnItems(int count, GameObject prefab)

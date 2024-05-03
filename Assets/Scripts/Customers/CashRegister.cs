@@ -9,6 +9,7 @@ public class CashRegister : MonoBehaviour
     [SerializeField] private Holder productHolder;
     [SerializeField] private MatrixHolder moneyHolder;
     [SerializeField] private CustomerWaitingLineManager customerManager;
+    [SerializeField] private CustomerAfterOrderingManager customerAfterOrderingManager;
     private void Update()
     {
         if (!customerManager.HasCustomer()) { return; }
@@ -38,6 +39,9 @@ public class CashRegister : MonoBehaviour
         if (seat == null) { return; }
         table.SetSeatOccupied(seat);
         customer.SetDestination(seat.chair.position);
+        customer.SetCurrentSeat(seat);
+        customer.SetCurrentStatus(Status.GoToTable);
+        customerAfterOrderingManager.AddCustomer(customer);
 
     }
     private void SpawnMoney(int count, GameObject prefab)

@@ -140,7 +140,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 0
 --- !u!136 &8518465327155450717
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -189,8 +189,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dbc778cc09abff49b70668e99effc17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tipMoneyTimes: 2
+  topDistance: 0.2
+  eatingTime: 10
   holdingPlace: {fileID: 3918897484471116903}
   aIController: {fileID: -742446514809527627}
+  trashPrefab: {fileID: 5578601197259289648, guid: 4fc89f843d81c39449651ab5f8884655,
+    type: 3}
+  moneyPrefab: {fileID: 5578601197259289648, guid: cce32fabc82d3d64db68775597527753,
+    type: 3}
 --- !u!1 &4535025375071930595
 GameObject:
   m_ObjectHideFlags: 0

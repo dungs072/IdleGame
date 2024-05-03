@@ -45,7 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c9d1e1b858684245a875a6d44d95b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Resource>k__BackingField: 1
   <Price>k__BackingField: 5
+  <MoneyPrefab>k__BackingField: {fileID: 0}
 --- !u!1 &9171843263995675127
 GameObject:
   m_ObjectHideFlags: 0

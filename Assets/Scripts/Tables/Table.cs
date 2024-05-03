@@ -2,16 +2,40 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.iOS;
 
 public class Table : MonoBehaviour
 {
     [SerializeField] private List<Seat> seats = new List<Seat>();
-    public bool IsFull{get; private set;}
-    public Seat GetAvailableSeat()
+    public bool IsFull { get; private set; }
+    private void Start()
     {
         foreach(var seat in seats)
         {
-            if(seat.IsOccupied)
+            seat.OnNotOccupiedSeat+=NotOccupiedSeat;
+        }
+    }
+    private void NotOccupiedSeat()
+    {
+        int count = seats.Count;
+        foreach(var seat in seats)
+        {
+            if(!seat.IsOccupied)
+            {
+                count--;
+            }
+        }
+        if(count==0)
+        {
+            IsFull = false;
+        }
+    }
+
+    public Seat GetAvailableSeat()
+    {
+        foreach (var seat in seats)
+        {
+            if (seat.IsOccupied)
             {
                 continue;
             }
@@ -25,28 +49,22 @@ public class Table : MonoBehaviour
     public void SetSeatOccupied(Seat seat)
     {
         int count = 0;
-        foreach(var s in seats)
+        foreach (var s in seats)
         {
-            if(s.IsOccupied)
+            if (s.IsOccupied)
             {
                 count++;
             }
-            if(s==seat)
+            if (s == seat)
             {
                 seat.IsOccupied = true;
                 count++;
             }
         }
-        if(count==seats.Count)
+        if (count == seats.Count)
         {
             IsFull = true;
         }
     }
 }
-[Serializable]
-public class Seat
-{
-    public Transform foodPlace;
-    public Transform chair; 
-    public bool IsOccupied;
-}
+

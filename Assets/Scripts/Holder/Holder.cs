@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 public enum Resource
 {
     Product,
@@ -9,6 +10,7 @@ public enum Resource
 }
 public class Holder : MonoBehaviour
 {
+    public event Action OnTookGarbage;
     [SerializeField] private Resource resourceType;
     [SerializeField] private bool canTake = true;
     [SerializeField] private float maxItemCanHold = 10f;
@@ -30,15 +32,23 @@ public class Holder : MonoBehaviour
     }
     private void PutItem(HoldingHandler holdingHandler)
     {
-        if (items.Count >= maxItemCanHold) { return; }
-        int count = holdingHandler.GetItemAmount();
-        for (int i = 0; i < count; i++)
+        if (maxItemCanHold!=-1&&items.Count >= maxItemCanHold) { return; }
+        if (holdingHandler.GetCurrentResourceType() == Resource.Product)
         {
-            GameObject item = holdingHandler.GetLastItem();
-            AddItem(item);
-            holdingHandler.RemoveItemHolding(item);
+            int count = holdingHandler.GetItemAmount();
+            for (int i = 0; i < count; i++)
+            {
+                GameObject item = holdingHandler.GetLastItem();
+                AddItem(item);
+                holdingHandler.RemoveItemHolding(item);
 
+            }
         }
+        else if (holdingHandler.GetCurrentResourceType() == Resource.Garbage)
+        {
+            holdingHandler.ClearAllItems();
+        }
+
     }
 
     private void TakeItem(HoldingHandler holdingHandler)
@@ -48,17 +58,31 @@ public class Holder : MonoBehaviour
         {
             TakeProduct(holdingHandler);
         }
-        else if(resourceType == Resource.Money)
+        else if (resourceType == Resource.Money)
         {
             TakeMoney(holdingHandler);
         }
+        else if(resourceType == Resource.Garbage)
+        {
+            TakeProduct(holdingHandler);
+            OnTookGarbage?.Invoke();
+        }
+
 
 
     }
     private void TakeMoney(HoldingHandler holdingHandler)
     {
-        
+        //if(!holdingHandler.CompareTag("Player")){return;}
+        if (holdingHandler.TryGetComponent(out Absorber absorber))
+        {
+            absorber.AbsorbMoney(items);
+        }
+        // HAIZZ
+        GetComponent<MatrixHolder>().Reset();
     }
+
+
 
     private void TakeProduct(HoldingHandler holdingHandler)
     {
