@@ -24,6 +24,10 @@ public class TableManager : MonoBehaviour
     {
         foreach (Table table in tables)
         {
+            if(!table.gameObject.activeSelf)
+            {
+                continue;
+            }
             if (!table.IsFull)
             {
                 return table;

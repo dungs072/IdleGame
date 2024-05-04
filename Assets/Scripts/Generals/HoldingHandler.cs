@@ -67,4 +67,9 @@ public class HoldingHandler : MonoBehaviour
     {
         currentHoldingResource = resource;
     }
+    public void AddHoldingSize(int amount)
+    {
+        maxHoldingSize+=amount;
+    }
+    
 }

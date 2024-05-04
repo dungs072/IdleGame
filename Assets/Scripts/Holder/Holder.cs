@@ -32,23 +32,32 @@ public class Holder : MonoBehaviour
     }
     private void PutItem(HoldingHandler holdingHandler)
     {
-        if (maxItemCanHold!=-1&&items.Count >= maxItemCanHold) { return; }
-        if (holdingHandler.GetCurrentResourceType() == Resource.Product)
+        if (TryGetComponent(out BuyingInfo buyingInfo))
         {
-            int count = holdingHandler.GetItemAmount();
-            for (int i = 0; i < count; i++)
+            if (holdingHandler.TryGetComponent(out Buyer buyer))
             {
-                GameObject item = holdingHandler.GetLastItem();
-                AddItem(item);
-                holdingHandler.RemoveItemHolding(item);
-
+                buyer.BuyPlace(buyingInfo, buyingInfo.MatrixHolder);
             }
         }
-        else if (holdingHandler.GetCurrentResourceType() == Resource.Garbage)
+        else
         {
-            holdingHandler.ClearAllItems();
-        }
+            if (maxItemCanHold != -1 && items.Count >= maxItemCanHold) { return; }
+            if (holdingHandler.GetCurrentResourceType() == Resource.Product)
+            {
+                int count = holdingHandler.GetItemAmount();
+                for (int i = 0; i < count; i++)
+                {
+                    GameObject item = holdingHandler.GetLastItem();
+                    AddItem(item);
+                    holdingHandler.RemoveItemHolding(item);
 
+                }
+            }
+            else if (holdingHandler.GetCurrentResourceType() == Resource.Garbage)
+            {
+                holdingHandler.ClearAllItems();
+            }
+        }
     }
 
     private void TakeItem(HoldingHandler holdingHandler)
@@ -62,7 +71,7 @@ public class Holder : MonoBehaviour
         {
             TakeMoney(holdingHandler);
         }
-        else if(resourceType == Resource.Garbage)
+        else if (resourceType == Resource.Garbage)
         {
             TakeProduct(holdingHandler);
             OnTookGarbage?.Invoke();

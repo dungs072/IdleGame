@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float movementSpeed = 10f;
     [Header("Rotation")]
     [SerializeField] private float rotationSpeed = 3f;
+    [Header("Force receiver")]
+    [SerializeField] private ForceReceiver forceReceiver;
     private PlayerInput playerInput;
     private CharacterController characterController;
     private Vector3 previousDirection;
@@ -28,8 +30,9 @@ public class PlayerController : MonoBehaviour
     private void UpdateMovement()
     {
         Vector2 movement = playerInput.MovementValue;
-        Vector3 movementValue = new Vector3(movement.x,0,movement.y)
-                                            *movementSpeed*Time.deltaTime;
+        Vector3 movementValue = new Vector3(movement.x,0,movement.y) * movementSpeed*Time.deltaTime+
+                                forceReceiver.Movement;
+                                    
         characterController.Move(movementValue);  
         
     }
@@ -50,5 +53,9 @@ public class PlayerController : MonoBehaviour
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         playerModel.rotation = Quaternion.Slerp(playerModel.rotation, 
                             lookRotation,rotationSpeed*Time.deltaTime);
+    }
+    public void AddSpeed(float amount)
+    {
+        movementSpeed+=amount;
     }
 }

@@ -8,6 +8,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_Text moneyText;
     [SerializeField] private TMP_Text expText;
     [SerializeField] private TMP_Text levelText;
+    [Header("Services")]
+    [SerializeField] private GameObject selfServicePage;
+    [SerializeField] private TMP_Text speedPriceText;
+    [SerializeField] private TMP_Text stackPriceText;
     public static UIManager Instance { get; private set; }
     private void Awake()
     {
@@ -25,7 +29,7 @@ public class UIManager : MonoBehaviour
     #region InGame
     public void SetMoneyText(int number)
     {
-        moneyText.text = number.ToString();
+        moneyText.text = number.ToString()+"$";
     }
     public void SetExpText(int number)
     {
@@ -35,6 +39,22 @@ public class UIManager : MonoBehaviour
     {
         levelText.text = "Level "+ number.ToString()+": ";
     }
+
+    // services
+    public void ToggleSelfService(bool state)
+    {
+        selfServicePage.SetActive(state);
+    }
+
+    public void SetSpeedPriceText(int number)
+    {
+        speedPriceText.text = "Price: " + number.ToString()+"$";
+    }
+    public void SetStackPriceText(int number)
+    {
+        stackPriceText.text = "Price: "+number.ToString()+"$";
+    }
+
     #endregion
 
 }
