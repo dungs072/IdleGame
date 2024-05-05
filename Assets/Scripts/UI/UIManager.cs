@@ -12,10 +12,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject selfServicePage;
     [SerializeField] private TMP_Text speedPriceText;
     [SerializeField] private TMP_Text stackPriceText;
+    //staff
+    [SerializeField] private GameObject staffServicePage;
+    [SerializeField] private TMP_Text staffSpeedPriceText;
+    [SerializeField] private TMP_Text staffStackPriceText;
+    [SerializeField] private TMP_Text staffHiringText;
     public static UIManager Instance { get; private set; }
     private void Awake()
     {
-        if(Instance==null)
+        if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(Instance);
@@ -29,15 +34,15 @@ public class UIManager : MonoBehaviour
     #region InGame
     public void SetMoneyText(int number)
     {
-        moneyText.text = number.ToString()+"$";
+        moneyText.text = number.ToString() + "$";
     }
     public void SetExpText(int number)
     {
         expText.text = number.ToString();
     }
-    public void SetLevelText(int number)    
+    public void SetLevelText(int number)
     {
-        levelText.text = "Level "+ number.ToString()+": ";
+        levelText.text = "Level " + number.ToString() + ": ";
     }
 
     // services
@@ -48,11 +53,29 @@ public class UIManager : MonoBehaviour
 
     public void SetSpeedPriceText(int number)
     {
-        speedPriceText.text = "Price: " + number.ToString()+"$";
+        speedPriceText.text = "Price: " + number.ToString() + "$";
     }
     public void SetStackPriceText(int number)
     {
-        stackPriceText.text = "Price: "+number.ToString()+"$";
+        stackPriceText.text = "Price: " + number.ToString() + "$";
+    }
+    // staff
+    public void ToggleStaffService(bool state)
+    {
+        staffServicePage.SetActive(state);
+    }
+
+    public void SetStaffSpeedPriceText(int number)
+    {
+        staffSpeedPriceText.text = "Price: " + number.ToString() + "$";
+    }
+    public void SetStaffStackPriceText(int number)
+    {
+        staffStackPriceText.text = "Price: " + number.ToString() + "$";
+    }
+    public void SetStaffHiringPriceText(int number)
+    {
+        staffHiringText.text = "Price: " + number.ToString() + "$";
     }
 
     #endregion

@@ -163,6 +163,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8070684899248362201}
   - component: {fileID: 545082350978803589}
+  - component: {fileID: 2055113356530840814}
   m_Layer: 0
   m_Name: Chair
   m_TagString: Untagged
@@ -204,6 +205,19 @@ MonoBehaviour:
   holder: {fileID: 2062530405729894605}
   MoneyHolder: {fileID: 8496719596000316868}
   IsOccupied: 0
+--- !u!114 &2055113356530840814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365564459454580594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9456bd622e4f2b4ea5e078b463fbb50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  neededPlaceToFinishTask: {fileID: 0}
 --- !u!1 &3744050816031628988
 GameObject:
   m_ObjectHideFlags: 0
@@ -418,6 +432,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6926320656284838115}
   - component: {fileID: 8683324987865107002}
+  - component: {fileID: 4683255129692341043}
   m_Layer: 0
   m_Name: Chair (1)
   m_TagString: Untagged
@@ -459,6 +474,19 @@ MonoBehaviour:
   holder: {fileID: 8058679097866586617}
   MoneyHolder: {fileID: 8496719596000316868}
   IsOccupied: 0
+--- !u!114 &4683255129692341043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7301972544849030216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9456bd622e4f2b4ea5e078b463fbb50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  neededPlaceToFinishTask: {fileID: 0}
 --- !u!1 &8194409980827034243
 GameObject:
   m_ObjectHideFlags: 0

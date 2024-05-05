@@ -23,11 +23,8 @@ public class Table : MonoBehaviour
             if(!seat.IsOccupied)
             {
                 count--;
+                IsFull = false;
             }
-        }
-        if(count==0)
-        {
-            IsFull = false;
         }
     }
 

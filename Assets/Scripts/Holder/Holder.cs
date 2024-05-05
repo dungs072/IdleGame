@@ -18,6 +18,13 @@ public class Holder : MonoBehaviour
     private List<GameObject> items = new List<GameObject>();
     private void OnTriggerEnter(Collider other)
     {
+        if(other.TryGetComponent(out Staff staff)&&canTake)// check if staff pass the holder
+        {
+            if(staff.CurrentTask.Holder!=transform)
+            {
+                return;
+            }
+        }
         if (other.TryGetComponent(out HoldingHandler holdingHandler))
         {
             if (canTake)
@@ -76,9 +83,6 @@ public class Holder : MonoBehaviour
             TakeProduct(holdingHandler);
             OnTookGarbage?.Invoke();
         }
-
-
-
     }
     private void TakeMoney(HoldingHandler holdingHandler)
     {

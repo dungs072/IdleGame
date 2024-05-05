@@ -70,6 +70,11 @@ public class Customer : MonoBehaviour
         {
             var trashInstance = Instantiate(trashPrefab,currentSeat.foodPlace.position,Quaternion.identity);
             var holder = currentSeat.foodPlace.GetComponent<Holder>();
+            if(currentSeat.TryGetComponent(out Task task))
+            {
+                TaskManager.Instance.AddTask(task);
+            }
+            
             holder.AddItem(trashInstance);
         }
     }
