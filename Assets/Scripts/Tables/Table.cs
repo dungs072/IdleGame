@@ -63,5 +63,23 @@ public class Table : MonoBehaviour
             IsFull = true;
         }
     }
+    public void AddTaskSeat()
+    {
+        foreach(var seat in seats)
+        {
+            TaskManager.Instance.AddTask(seat.GetComponent<Task>());
+        }
+    }
+    public bool HasGarbageOnTable()
+    {
+        foreach(var seat in seats)
+        {
+            if(seat.holder.GetNumberItems()==0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
 }
 

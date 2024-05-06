@@ -20,4 +20,8 @@ public class AIController : MonoBehaviour
     {
         return destination;
     }
+    public void Stop(bool state)
+    {
+        agent.isStopped = state;
+    }
 }

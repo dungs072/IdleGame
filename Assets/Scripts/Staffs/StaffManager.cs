@@ -10,6 +10,13 @@ public class StaffManager : MonoBehaviour
     {
         taskManager = TaskManager.Instance;
     }
+    public void ClearTask()
+    {
+        foreach (var staff in staffs)
+        {
+            staff.ClearTask();
+        }
+    }
     private void Update()
     {
         AssignTask();
@@ -19,14 +26,15 @@ public class StaffManager : MonoBehaviour
     private void AssignTask()
     {
         if (!taskManager.HasTask()) { return; }
+
+
         foreach (var staff in staffs)
         {
             if (!staff.IsFinishedTaskBefore()) { continue; }
-            var task = taskManager.GetCurrentTask(staff.transform.position);
-            if (task == null) { continue; }
+            var task = taskManager.GetCurrentTask(staff.transform.position, staff.TaskType);
+            if (task == null) { return; }
             staff.SetTask(task);
             taskManager.RemoveTask(task);
-
         }
     }
     private void HandleTask()
@@ -34,16 +42,50 @@ public class StaffManager : MonoBehaviour
         foreach (var staff in staffs)
         {
             if (staff.CurrentTask == null) { continue; }
+
             if (staff.IsReachDestination())
             {
                 if (staff.staffStatus == Staff.StaffStatus.MainTask)
                 {
-                    staff.SetDestination(staff.CurrentTask.NeededPlaceToFinishTaks.position);
-                    staff.SetStatus(Staff.StaffStatus.Needed);
+                    if (staff.CurrentTask.NeedToMoveNextPlace)
+                    {
+                        staff.SetStatus(Staff.StaffStatus.Needed);
+                    }
+                    else
+                    {
+                        return;
+                    }
+                    if (staff.CurrentTask.NeededPlaceToFinishTask.TryGetComponent(out Holder holder))
+                    {
+                        if (holder.HolderPositionForAI != null)
+                        {
+                            staff.SetDestination(holder.HolderPositionForAI.position);
+                        }
+                        else
+                        {
+                            staff.SetDestination(staff.CurrentTask.NeededPlaceToFinishTask.position);
+                        }
+                    }
+                    else
+                    {
+                        staff.SetDestination(staff.CurrentTask.NeededPlaceToFinishTask.position);
+                    }
+
+
                 }
                 else if (staff.staffStatus == Staff.StaffStatus.Needed)
                 {
-                    staff.SetTask(null);
+                    Task currentTask = staff.CurrentTask;
+                    if (currentTask.NeededPlaceToFinishTask.TryGetComponent(out Task task))
+                    {
+                        staff.SetTask(task);
+
+                    }
+                    else
+                    {
+                        staff.SetTask(null);
+                    }
+
                 }
             }
 

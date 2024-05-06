@@ -11,16 +11,19 @@ public enum Resource
 public class Holder : MonoBehaviour
 {
     public event Action OnTookGarbage;
+    public event Action TaskFinished;
     [SerializeField] private Resource resourceType;
     [SerializeField] private bool canTake = true;
     [SerializeField] private float maxItemCanHold = 10f;
     [SerializeField] private float topDistance = 1f;
+    [SerializeField] private Transform holderPositionForAI;
     private List<GameObject> items = new List<GameObject>();
+    public Transform HolderPositionForAI=>holderPositionForAI;
     private void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent(out Staff staff)&&canTake)// check if staff pass the holder
+        if (other.TryGetComponent(out Staff staff) && canTake)// check if staff pass the holder
         {
-            if(staff.CurrentTask.Holder!=transform)
+            if (staff.CurrentTask.Holder.transform != transform)
             {
                 return;
             }
@@ -82,6 +85,11 @@ public class Holder : MonoBehaviour
         {
             TakeProduct(holdingHandler);
             OnTookGarbage?.Invoke();
+
+        }
+        if (items.Count == 0&&holdingHandler.TryGetComponent(out PlayerData t))
+        {
+            TaskFinished?.Invoke();
         }
     }
     private void TakeMoney(HoldingHandler holdingHandler)
@@ -136,6 +144,7 @@ public class Holder : MonoBehaviour
     }
     public GameObject GetLastItem()
     {
+        if(items.Count==0){return null;}
         return items[items.Count - 1];
     }
     public int GetNumberItems()

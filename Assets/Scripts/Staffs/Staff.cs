@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class Staff : MonoBehaviour
 {
@@ -8,18 +9,41 @@ public class Staff : MonoBehaviour
         Needed,
     }
     [SerializeField] private AIController aIController;
-    
+
     [SerializeField] private HoldingHandler holdingHandler;
     [SerializeField] private StaffStatus status;
+    [SerializeField] private TaskType taskType;
     private Task task;
-    public Task CurrentTask=>task;
-    public StaffStatus staffStatus=> status;
+    private Task previousTask;
+    public Task CurrentTask => task;
+    public StaffStatus staffStatus => status;
+    public TaskType TaskType => taskType;
     public void SetTask(Task task)
     {
         this.task = task;
-        if(task==null){return;}
-        SetDestination(task.transform.position);
-        status = StaffStatus.MainTask;
+        if (task == null)
+        {
+            if (previousTask != null)
+            {
+                previousTask.Holder.TaskFinished -= ClearTask;
+            }
+            aIController.Stop(true);
+            status = StaffStatus.MainTask;
+            return;
+        }
+        else
+        {
+            previousTask = task;
+            task.Holder.TaskFinished += ClearTask;
+            aIController.Stop(false);
+            SetDestination(task.transform.position);
+            status = StaffStatus.MainTask;
+        }
+
+    }
+    public void ClearTask()
+    {
+        SetTask(null);
     }
     public void SetStatus(StaffStatus status)
     {
@@ -27,10 +51,10 @@ public class Staff : MonoBehaviour
     }
     public bool IsFinishedTaskBefore()
     {
-        return task==null;
+        return task == null;
     }
 
-    
+
 
     public bool IsReachDestination()
     {

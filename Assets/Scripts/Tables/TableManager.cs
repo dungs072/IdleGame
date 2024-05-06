@@ -35,4 +35,22 @@ public class TableManager : MonoBehaviour
         }
         return null;
     }
+    public bool HasGarbageOnAllTables()
+    {
+        foreach(Table table in tables)
+        {
+            if(!table.HasGarbageOnTable())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public void AddAllTaskTable()
+    {
+        foreach(Table table in tables)
+        {
+            table.AddTaskSeat();
+        }
+    }
 }
