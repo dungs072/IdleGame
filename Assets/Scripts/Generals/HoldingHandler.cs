@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HoldingHandler : MonoBehaviour
 {
+    public event Action ItemAdded;
+    public event Action ItemRemovedAll;
     [SerializeField] private int maxHoldingSize = 2;
     [SerializeField] private float topDistance = 0.2f;
     [SerializeField] private Transform holdingPlace;
@@ -23,32 +26,41 @@ public class HoldingHandler : MonoBehaviour
             item.transform.position = holdingPlace.position +
                                 holdingPlace.up * topDistance;
         }
-        
+
         item.transform.SetParent(holdingPlace);
         item.transform.rotation = Quaternion.identity;
         items.Add(item);
 
-        if(TryGetComponent(out PlayerData playerData))
+        if (TryGetComponent(out PlayerData playerData))
         {
             playerData.AddExp(1);
         }
+        ItemAdded?.Invoke();
     }
     public Resource GetCurrentResourceType()
     {
         return currentHoldingResource;
     }
-    public void RemoveItemHolding(GameObject item )
+    public void RemoveItemHolding(GameObject item)
     {
-        if(items.Count==0){return;}
+        if (items.Count == 0) { return; }
         items.Remove(item);
+        if (items.Count == 0)
+        {
+            ItemRemovedAll?.Invoke();
+        }
     }
     public void ClearAllItems()
     {
-        for(int i =items.Count-1;i>=0;i--)
+        for (int i = items.Count - 1; i >= 0; i--)
         {
             var item = items[i];
             items.RemoveAt(i);
             Destroy(item);
+        }
+        if (items.Count == 0)
+        {
+            ItemRemovedAll?.Invoke();
         }
     }
     public GameObject GetLastItem()
@@ -69,7 +81,7 @@ public class HoldingHandler : MonoBehaviour
     }
     public void AddHoldingSize(int amount)
     {
-        maxHoldingSize+=amount;
+        maxHoldingSize += amount;
     }
-    
+
 }

@@ -10,6 +10,7 @@ public class BuyingInfo : MonoBehaviour
     [field: SerializeField] public MatrixHolder MatrixHolder { get; private set; }
     [SerializeField] private TMP_Text displayText;
     [SerializeField] private string nameItem;
+    
     private void Start()
     {
         displayText.text = nameItem+"\n"+"Price: "+Price.ToString()+"$";

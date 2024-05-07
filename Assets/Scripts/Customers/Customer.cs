@@ -46,8 +46,12 @@ public class Customer : MonoBehaviour
         Vector3 direction = (foodPlace - transform.position).normalized;
         direction.y = 0f;
         transform.rotation = Quaternion.LookRotation(direction);
+        aIController.SetLocomotionValue(0f);
+        aIController.SetCarryingAnimation(false);
+        aIController.SetSitAnimation(true);
         yield return new WaitForSeconds(eatingTime);
         // finish eating
+        aIController.SetSitAnimation(false);
         TipMoney();
         PutTrashOnTable();
         currentStatus = Status.Finish;
@@ -127,5 +131,15 @@ public class Customer : MonoBehaviour
     public Vector3 GetDestination()
     {
         return aIController.GetDestination();
+    }
+
+    public void SetLocomotionValue(float desireValue)
+    {
+        float value = Mathf.Lerp(aIController.GetLocomotionValue(), desireValue, Time.deltaTime*5);
+        aIController.SetLocomotionValue(value);
+    }
+    public void SetCarryingAnimation(bool state)
+    {
+        aIController.SetCarryingAnimation(state);
     }
 }

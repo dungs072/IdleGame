@@ -62,6 +62,8 @@ public class Holder : MonoBehaviour
                     holdingHandler.RemoveItemHolding(item);
 
                 }
+                
+
             }
             else if (holdingHandler.GetCurrentResourceType() == Resource.Garbage)
             {

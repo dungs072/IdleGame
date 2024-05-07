@@ -10,10 +10,15 @@ public class CustomerAfterOrderingManager : MonoBehaviour
     {
         for(int i =customers.Count-1; i>=0; i--)
         {
+            if(!customers[i].IsReachDestination())
+            {
+                customers[i].SetLocomotionValue(1f);
+            }
             if(customers[i].GetCurrentStatus()==Status.GoToTable&&customers[i].IsReachDestination())
             {
                 customers[i].SetCurrentStatus(Status.OnTable);
                 customers[i].HandleOnTable();
+            
             }
             if(customers[i].GetCurrentStatus()==Status.Finish&&customers[i].IsReachDestination())
             {

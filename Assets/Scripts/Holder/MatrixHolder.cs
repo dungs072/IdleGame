@@ -16,7 +16,7 @@ public class MatrixHolder : MonoBehaviour
     public void AddItem(GameObject item)
     {
         Vector3 position = initialPlace.position + new Vector3(currentRow, 0, currentCol) * sideDistance;
-        position.y = topDistance * currentTop;
+        position.y += topDistance * currentTop;
         item.transform.position = position;
         item.transform.rotation = Quaternion.identity;
         currentCol++;

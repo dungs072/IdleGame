@@ -20,7 +20,6 @@ public class CashRegister : MonoBehaviour
         var table = TableManager.Instance.GetAvailableTable();
         if (table == null)
         {
-
             return;
         }
         Customer customer = customerManager.GetTheFirstCustomers();
@@ -77,7 +76,9 @@ public class CashRegister : MonoBehaviour
         customer.SetDestination(seat.chair.position);
         customer.SetCurrentSeat(seat);
         customer.SetCurrentStatus(Status.GoToTable);
+        customer.SetCarryingAnimation(true);
         customerAfterOrderingManager.AddCustomer(customer);
+
 
     }
     private void SpawnMoney(int count, GameObject prefab)

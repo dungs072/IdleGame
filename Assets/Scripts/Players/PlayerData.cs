@@ -36,4 +36,6 @@ public class PlayerData : MonoBehaviour
         currentMoney = money;
         UIManager.Instance.SetMoneyText(currentMoney);
     }
+
+    
 }

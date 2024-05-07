@@ -16,7 +16,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject staffServicePage;
     [SerializeField] private TMP_Text staffSpeedPriceText;
     [SerializeField] private TMP_Text staffStackPriceText;
-    [SerializeField] private TMP_Text staffHiringText;
+    [SerializeField] private TMP_Text staffWaiterHiringText;
+    [SerializeField] private TMP_Text staffCashierHiringText;
     public static UIManager Instance { get; private set; }
     private void Awake()
     {
@@ -73,9 +74,13 @@ public class UIManager : MonoBehaviour
     {
         staffStackPriceText.text = "Price: " + number.ToString() + "$";
     }
-    public void SetStaffHiringPriceText(int number)
+    public void SetStaffWaiterHiringPriceText(int number)
     {
-        staffHiringText.text = "Price: " + number.ToString() + "$";
+        staffWaiterHiringText.text = "Price: " + number.ToString() + "$";
+    }
+    public void SetStaffCashierHiringPriceText(int number)
+    {
+        staffCashierHiringText.text = "Price: " + number.ToString() + "$";
     }
 
     #endregion

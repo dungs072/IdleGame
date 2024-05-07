@@ -5,19 +5,33 @@ using UnityEngine;
 public class CustomerWaitingLineManager : MonoBehaviour
 {
     private List<Customer> customers = new List<Customer>();
+    private void Update()
+    {
+        foreach (var customer in customers)
+        {
+            if(!customer.IsReachDestination())
+            {
+                customer.SetLocomotionValue(1f);
+            }
+            else
+            {
+                customer.SetLocomotionValue(0f);
+            }
+        }
+    }
     public void AddCustomer(Customer customer)
     {
         customers.Add(customer);
     }
     public Customer GetTheFirstCustomers()
     {
-        if(customers.Count==0){return null;}
+        if (customers.Count == 0) { return null; }
         return customers[0].GetComponent<Customer>();
     }
     public Customer GetTheLastCustomer()
     {
-        if(customers.Count==0){return null;}
-        return customers[customers.Count-1].GetComponent<Customer>();
+        if (customers.Count == 0) { return null; }
+        return customers[customers.Count - 1].GetComponent<Customer>();
     }
     public int GetCurrentCustomerWaitingInLine()
     {
@@ -25,7 +39,7 @@ public class CustomerWaitingLineManager : MonoBehaviour
     }
     public bool HasCustomer()
     {
-        return customers.Count>0;
+        return customers.Count > 0;
     }
     public void RemoveCustomer(Customer customer)
     {
@@ -34,15 +48,15 @@ public class CustomerWaitingLineManager : MonoBehaviour
     // should move before delete the first customer from list;
     public void MoveWaitingLine()
     {
-        if(customers.Count==1){return;}
+        if (customers.Count == 1) { return; }
         List<Vector3> destinations = new List<Vector3>();
-        for(int i = 0;i<customers.Count;i++)
+        for (int i = 0; i < customers.Count; i++)
         {
             destinations.Add(customers[i].GetDestination());
         }
-        for(int i = 1;i<customers.Count;i++)
+        for (int i = 1; i < customers.Count; i++)
         {
-            customers[i].SetDestination(destinations[i-1]);
+            customers[i].SetDestination(destinations[i - 1]);
         }
     }
 

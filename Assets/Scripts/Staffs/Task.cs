@@ -15,10 +15,13 @@ public class Task : MonoBehaviour
     [SerializeField] private Holder holder;
     [SerializeField] private bool needToMoveNextPlace = true;
     [SerializeField] private TaskType taskType;
+    [SerializeField] private bool forceToMoveThisTask = false;
     public Transform NeededPlaceToFinishTask => neededPlaceToFinishTask;
     public Holder Holder => holder;
     public TaskType TaskType => taskType;
     public StaffInfo StaffInfo{get;set;} = null;
+
+    public bool ForceToMoveThisTask=>forceToMoveThisTask;
 
 
     public bool NeedToMoveNextPlace

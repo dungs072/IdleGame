@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rotationSpeed = 3f;
     [Header("Force receiver")]
     [SerializeField] private ForceReceiver forceReceiver;
+    [Header("Animator")]
+    [SerializeField] private PlayerAnimator playerAnimator;
     private PlayerInput playerInput;
     private CharacterController characterController;
     private Vector3 previousDirection;
@@ -26,36 +28,43 @@ public class PlayerController : MonoBehaviour
     {
         UpdateMovement();
         UpdateLookDirection();
+        UpdateAnimator();
     }
+
     private void UpdateMovement()
     {
         Vector2 movement = playerInput.MovementValue;
-        Vector3 movementValue = new Vector3(movement.x,0,movement.y) * movementSpeed*Time.deltaTime+
+        Vector3 movementValue = new Vector3(movement.x, 0, movement.y) * movementSpeed * Time.deltaTime +
                                 forceReceiver.Movement;
-                                    
-        characterController.Move(movementValue);  
-        
+
+        characterController.Move(movementValue);
+
     }
     private void UpdateLookDirection()
     {
         Vector2 movement = playerInput.MovementValue;
         Vector3 direction = default;
-        if(movement==Vector2.zero)
+        if (movement == Vector2.zero)
         {
             direction = previousDirection;
         }
         else
         {
-            direction = new Vector3(movement.x,0,movement.y);
+            direction = new Vector3(movement.x, 0, movement.y);
             previousDirection = direction;
         }
-        
+
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        playerModel.rotation = Quaternion.Slerp(playerModel.rotation, 
-                            lookRotation,rotationSpeed*Time.deltaTime);
+        playerModel.rotation = Quaternion.Slerp(playerModel.rotation,
+                            lookRotation, rotationSpeed * Time.deltaTime);
+    }
+    private void UpdateAnimator()
+    {
+        Vector2 movement = playerInput.MovementValue;
+        playerAnimator.SetLocomotionValue(movement==Vector2.zero?0:1);
     }
     public void AddSpeed(float amount)
     {
-        movementSpeed+=amount;
+        movementSpeed += amount;
     }
 }
